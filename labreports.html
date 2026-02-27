@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab Report Intelligence Agent</title>
+</head>
+
+<body style="font-family:Arial; padding:30px; background:#f4f6f9;">
+
+<h1>Lab Report Intelligence Agent</h1>
+
+<hr>
+
+<h3>Upload Lab Report (Image or PDF)</h3>
+
+<input type="file" id="reportUpload" accept=".pdf,image/*">
+
+<br><br>
+
+<button onclick="analyzeReport()" 
+style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:6px;">
+Generate Summary
+</button>
+
+<hr>
+
+<h3>AI Generated Report Analysis</h3>
+
+<div id="summary" style="background:white; padding:15px; border-radius:8px;">
+Your report summary will appear here.
+</div>
+
+<hr>
+
+<h3>Need Medical Help?</h3>
+
+<button onclick="showDoctors()" 
+style="padding:10px 20px; background:#2e8b57; color:white; border:none; border-radius:6px;">
+Consult Doctor
+</button>
+
+<button onclick="translateSummary()" 
+style="padding:10px 20px; background:#ff9800; color:white; border:none; border-radius:6px; margin-left:10px;">
+Translate to Native Language
+</button>
+
+<div id="doctorSection" style="display:none; margin-top:20px; background:white; padding:15px; border-radius:8px;">
+    <h4>Recommended Specialists</h4>
+    <p>👩‍⚕️ Dr. Anjali – General Physician</p>
+    <p>👨‍⚕️ Dr. Ramesh – Cardiologist</p>
+    <p>👩‍⚕️ Dr. Kavya – Endocrinologist</p>
+
+    <button onclick="bookAppointment()" 
+    style="padding:8px 15px; background:#007bff; color:white; border:none; border-radius:5px;">
+    Book Appointment
+    </button>
+</div>
+
+<script>
+
+function getStatus(value, low, high) {
+    if (value < low) {
+        return "<span style='color:red; font-weight:bold;'>LOW</span>";
+    } 
+    else if (value > high) {
+        return "<span style='color:red; font-weight:bold;'>HIGH</span>";
+    } 
+    else {
+        return "<span style='color:green; font-weight:bold;'>NORMAL</span>";
+    }
+}
+
+function analyzeReport() {
+
+    let fileInput = document.getElementById("reportUpload");
+
+    if (fileInput.files.length === 0) {
+        alert("Please upload a lab report first.");
+        return;
+    }
+
+    let fileName = fileInput.files[0].name;
+
+    // Demo sample values
+    let hemoglobin = 10.5;    // Normal: 12 - 16
+    let cholesterol = 230;    // Normal: <200
+    let sugar = 95;           // Normal: 70 - 110
+
+    let summaryBox = document.getElementById("summary");
+
+    summaryBox.innerHTML =
+    "<b>Report:</b> " + fileName + "<br><br>" +
+
+    "Hemoglobin: " + hemoglobin + " g/dL → " + getStatus(hemoglobin, 12, 16) + "<br><br>" +
+
+    "Cholesterol: " + cholesterol + " mg/dL → " + getStatus(cholesterol, 0, 200) + "<br><br>" +
+
+    "Blood Sugar: " + sugar + " mg/dL → " + getStatus(sugar, 70, 110) + "<br><br>" +
+
+    "<b>AI Recommendation:</b><br>" +
+    "• Improve iron intake.<br>" +
+    "• Reduce oily food.<br>" +
+    "• Maintain regular exercise.";
+}
+
+function showDoctors() {
+    document.getElementById("doctorSection").style.display = "block";
+}
+
+function bookAppointment() {
+    alert("Appointment booked successfully! Doctor will contact you soon.");
+}
+
+function translateSummary() {
+    let summary = document.getElementById("summary").innerText;
+    alert("Demo Native Translation:\n\n" + summary);
+}
+
+</script>
+
+</body>
+</html>
